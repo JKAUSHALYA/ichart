@@ -19,7 +19,7 @@ import org.jfree.ui.RefineryUtilities;
  * A simple demonstration application showing how to create a pie chart using
  * data from a {@link DefaultPieDataset}.
  */
-public class PieChartDemo1 extends ApplicationFrame {
+public class PieChartCreate extends ApplicationFrame {
 
 	/**
 	 * Default constructor.
@@ -27,7 +27,7 @@ public class PieChartDemo1 extends ApplicationFrame {
 	 * @param title
 	 *            the frame title.
 	 */
-	public PieChartDemo1(String title) {
+	public PieChartCreate(String title) {
 		super(title);
 		setContentPane(createDemoPanel());
 		BufferedImage bi = ScreenImage.createImage(createDemoPanel());
@@ -98,7 +98,7 @@ public class PieChartDemo1 extends ApplicationFrame {
 	 */
 	public static void main(String[] args) {
 
-		PieChartDemo1 demo = new PieChartDemo1("Pie Chart");
+		PieChartCreate demo = new PieChartCreate("Pie Chart");
 		demo.pack();
 		RefineryUtilities.centerFrameOnScreen(demo);
 		demo.setVisible(true);
