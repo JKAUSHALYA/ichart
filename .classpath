@@ -13,5 +13,6 @@
 	<classpathentry kind="lib" path="lib/orsonpdf-1.6-eval.jar"/>
 	<classpathentry kind="lib" path="lib/servlet.jar"/>
 	<classpathentry kind="lib" path="lib/swtgraphics2d.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sithum/Downloads/itextpdf-5.1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
