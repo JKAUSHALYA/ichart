@@ -19,7 +19,7 @@ public class CharRecognizer {
 		super();
 	}
 
-	public ArrayList<ArrayList<String>> getTableData(String filePath) throws Exception {
+	public ArrayList<ArrayList<String>> getTableData(byte [] file) throws Exception {
 
 		Client restClient = new Client();
 
@@ -27,10 +27,10 @@ public class CharRecognizer {
 		restClient.applicationId = CharRecognizer.APPLICATION_ID;
 		restClient.password = CharRecognizer.PASSWORD;
 		
-		return this.performRecognition(restClient, filePath);
+		return this.performRecognition(restClient, file);
 	}
 
-	private ArrayList<ArrayList<String>> performRecognition(Client restClient, String filePath) throws Exception {
+	private ArrayList<ArrayList<String>> performRecognition(Client restClient, byte [] file) throws Exception {
 
 		String language = "English";
 
@@ -39,7 +39,7 @@ public class CharRecognizer {
 		settings.setOutputFormat(ProcessingSettings.OutputFormat.txt);
 
 		Task task = null;
-		task = restClient.processImage(filePath, settings);
+		task = restClient.processImage(file, settings);
 
 		while (task.isTaskActive()) {
 

@@ -21,7 +21,7 @@ public class Client {
 	 * Upload image to server and optionally append it to existing task. If
 	 * taskId is null, creates new task.
 	 */
-	public Task submitImage(String filePath, String taskId) throws Exception {
+	public Task submitImage(byte [] filePath, String taskId) throws Exception {
 		String taskPart = "";
 		if (taskId != null && !taskId.isEmpty()) {
 			taskPart = "?taskId=" + taskId;
@@ -30,10 +30,10 @@ public class Client {
 		return postFileToUrl(filePath, url);
 	}
 
-	public Task processImage(String filePath, ProcessingSettings settings)
+	public Task processImage(byte [] file, ProcessingSettings settings)
 			throws Exception {
 		URL url = new URL(serverUrl + "/processImage?" + settings.asUrlParams());
-		return postFileToUrl(filePath, url);
+		return postFileToUrl(file, url);
 	}
 
 	public Task processRemoteImage( String fileUrl, ProcessingSettings settings)
@@ -54,7 +54,7 @@ public class Client {
 		return getResponse(connection);
 	}
 
-	public Task processCheckmarkField(String filePath) throws Exception {
+	public Task processCheckmarkField(byte [] filePath) throws Exception {
 		URL url = new URL(serverUrl + "/processCheckmarkField");
 		return postFileToUrl(filePath, url);
 	}
@@ -68,7 +68,7 @@ public class Client {
 	 * @param settingsPath
 	 *            path to xml file describing processing settings
 	 */
-	public Task processFields(String taskId, String settingsPath)
+	public Task processFields(String taskId, byte [] settingsPath)
 			throws Exception {
 		URL url = new URL(serverUrl + "/processFields?taskId=" + taskId);
 		return postFileToUrl(settingsPath, url);
@@ -82,7 +82,7 @@ public class Client {
 	 * http://ocrsdk.com/documentation/apireference/processMRZ/
 	 * 
 	 */
-	public Task processMrz(String filePath ) throws Exception {
+	public Task processMrz(byte [] filePath ) throws Exception {
 		URL url = new URL(serverUrl + "/processMrz" );
 		return postFileToUrl(filePath, url);
 	}
@@ -93,12 +93,12 @@ public class Client {
 	 * @param templateName		Name of template. Possible values are: MRZ, more to come.
 	 * @return					Task created
 	 */
-	public Task captureData(String filePath, String templateName) throws Exception {
+	public Task captureData(byte [] filePath, String templateName) throws Exception {
 		URL url = new URL(serverUrl + "/captureData?template=" + templateName );
 		return postFileToUrl(filePath, url);
 	}
 	
-	public Task createTemplate(String taskId, String templateName, String settingsFilePath) throws Exception {
+	public Task createTemplate(String taskId, String templateName, byte [] settingsFilePath) throws Exception {
 		URL url = new URL(serverUrl + "/createTemplate?taskId=" + taskId + "&template=" + templateName);
 		return postFileToUrl(settingsFilePath, url);
 	}
@@ -210,9 +210,8 @@ public class Client {
 		return dataBuffer;
 	}
 
-	private Task postFileToUrl(String filePath, URL url) throws Exception {
-		byte[] fileContents = readDataFromFile(filePath);
-
+	private Task postFileToUrl(byte[] fileContents, URL url) throws Exception {
+		
 		HttpURLConnection connection = openPostConnection(url);
 		connection.setRequestProperty("Content-Length", Integer.toString(fileContents.length));
 
