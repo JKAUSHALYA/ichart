@@ -3,6 +3,7 @@ package com.wso2.hackathon.ichart.chartgenarator;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -14,6 +15,8 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
+
+import com.wso2.hackathon.ichart.imageprocessor.CharRecognizer;
 
 /**
  * A simple demonstration application showing how to create a pie chart using
@@ -44,14 +47,21 @@ public class PieChartCreate extends ApplicationFrame {
 	 * 
 	 * @return A sample dataset.
 	 */
-	private static PieDataset createDataset() {
+	private static PieDataset createDataset(ArrayList<ArrayList<String>> list) {
 		DefaultPieDataset dataset = new DefaultPieDataset();
-		dataset.setValue("One", new Double(43.2));
-		dataset.setValue("Two", new Double(10.0));
-		dataset.setValue("Three", new Double(27.5));
-		dataset.setValue("Four", new Double(17.5));
-		dataset.setValue("Five", new Double(11.0));
-		dataset.setValue("Six", new Double(19.4));
+
+		
+		for (ArrayList<String> arrayList : list) {
+			for (int i = 0; i < list.size(); i++) {
+				dataset.setValue(arrayList.get(i), Double.parseDouble(arrayList.get(1)));
+			}
+		}
+//		dataset.setValue("One", new Double(43.2));
+//		dataset.setValue("Two", new Double(10.0));
+//		dataset.setValue("Three", new Double(27.5));
+//		dataset.setValue("Four", new Double(17.5));
+//		dataset.setValue("Five", new Double(11.0));
+//		dataset.setValue("Six", new Double(19.4));
 		return dataset;
 	}
 
@@ -65,8 +75,7 @@ public class PieChartCreate extends ApplicationFrame {
 	 */
 	private static JFreeChart createChart(PieDataset dataset) {
 
-		JFreeChart chart = ChartFactory.createPieChart("Pie Chart", // chart
-																			// title
+		JFreeChart chart = ChartFactory.createPieChart("Pie Chart", // chart title
 				dataset, // data
 				true, // include legend
 				true, false);
@@ -86,7 +95,15 @@ public class PieChartCreate extends ApplicationFrame {
 	 * @return A panel.
 	 */
 	public static JPanel createDemoPanel() {
-		JFreeChart chart = createChart(createDataset());
+		CharRecognizer charRecognizer = new CharRecognizer();
+		ArrayList<ArrayList<String>> list = null;
+		try {
+			list = charRecognizer.getTableData("path");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		JFreeChart chart = createChart(createDataset(list));
 		return new ChartPanel(chart);
 	}
 
